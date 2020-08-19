@@ -1,9 +1,15 @@
 from PIL import Image
 from pathlib import Path
+import re
 
 
-
-im = Image.new(mode = "RGB", size=(400,400), color=(90, 30, 230))
+imageSize = input("Enter the x and y image dimensions (both numbers): ")
+splitUp=re.split("\W+", imageSize)
+splitUp = tuple(map(int, splitUp))
+RGBColor = re.split("\W+", input("Enter the RGB color values (all three here): "))
+RGBColor = RGBColor + [255]*(3-len(RGBColor))
+RGBColor = tuple(map(int, RGBColor))
+im = Image.new(mode = "RGB", size=splitUp, color=RGBColor)
 
 name = "generatedImage"
 num = 0

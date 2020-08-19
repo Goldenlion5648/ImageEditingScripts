@@ -1,36 +1,23 @@
 from PIL import Image
 import os
 
-# for f in os.listdir('.'):
-#     if f.endswith(".jpg"):
-#         # print(f)
-#         pass
 
-# name1 = input("Enter image ")
-ogPic = Image.open("smallerRed.png")
-qr = Image.open("smallerQR.png")
-# new1 = image1.crop((0,0, 562, 562))
-# new2 = image2.crop((0,0, 562, 562))
-# new1.save("smallerRed.png")
-# new2.save("smallerQR.png")
-pixels = qr.load()
+print("Make sure the QR code image is the same size or smaller than the normal image ")
+ogPic = Image.open(input("Enter normal image file name with extension: "))
+qr = Image.open(input("Enter QR code file name with extension: "))
+
+xOffset = int(input("Enter x offset to start placing QR code at in normal image "))
+yOffset = int(input("Good, now enter y offset to start placing QR code at in normal image "))
+boldFactor = int(input("Enter a whole number for how bolded the QR code is in the new image "))
+newImageFilename = input("What should the new file be called? ")
+QRpixels = qr.load()
 OGpixels = ogPic.load()
-# print(tuple(pixels))
+# print(tuple(QRpixels))
 for i in range(qr.size[0]):
     for j in range(qr.size[1]):
-        # print(pixels[i, j])
-        if sum(pixels[i, j]) > 500:
+        # print(QRpixels[i, j])
+        if sum(QRpixels[i, j]) > 500:
             # print("ran")
-            OGpixels[i, j] = (OGpixels[i, j][0], OGpixels[i, j][1]+40, OGpixels[i, j][2])
+            OGpixels[i+xOffset, j+yOffset] = (OGpixels[i+xOffset, j+yOffset][0], (OGpixels[i+xOffset, j+yOffset][1]+boldFactor)%256, OGpixels[i+xOffset, j+yOffset][2])
 
-ogPic.save("outputImage.png")
-# out = Image.blend(image1, image2, 0.1)
-# out.save("output.png")
-# out.show()
-# pixels = image1.load()
-# # print(pixels[0, 1])
-# for i in range(200):
-#     pixels[i, 50] = (i*3, 255, 0)
-# # pixels.show()
-# image1.show()
-# image1.save("RBGImage1.jpg")
+ogPic.save(newImageFilename)
